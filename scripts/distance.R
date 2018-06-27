@@ -60,6 +60,7 @@ vegdis <- function (x, method = "bray", binary = FALSE, diag = FALSE, upper = FA
 
 dist.JSD <- function(inMatrix, pseudocount=0.0000000001, ...) {
 	
+	inMatrix <- t(inMatrix)
 	KLD <- function(x,y) sum(x *log(x/y))
 	JSD<- function(x,y) sqrt(0.5 * KLD(x, (x+y)/2) + 0.5 * KLD(y, (x+y)/2))
 	matrixColSize <- length(colnames(inMatrix))
