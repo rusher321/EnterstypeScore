@@ -7,7 +7,7 @@ kBest <- function(data, dist , method = "kmeans"){
   sil = NULL
   out <- list()
   res <- matrix(NA, 19, ncol(data))
-	for (k in 2:20) { 
+  for (k in 2:20) { 
 		  switch (method,
 		          kmeans = { data.cluster_temp <-kmeans(dist, k)$cluster} ,
 			  pam = { data.cluster_temp <-pam(dist, k)$clustering},
@@ -33,4 +33,5 @@ kBest <- function(data, dist , method = "kmeans"){
   
   out <- list(res[best-1,], best, figure)
   return(out)
+
 }
