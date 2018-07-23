@@ -15,7 +15,7 @@ mygbm <- function(data){
 
 	bestT <- Mod$bestTune
 	prevalue <- Mod$pred
-	qdat <- subset(prevalue, n.trees==bestT$n.trees & interaction.depth==bestT$interacion.depth)
+	qdat <- subset(prevalue, n.trees==bestT$n.trees & interaction.depth==bestT$interaction.depth)
 	out <- c(Mod, qdat)
 
 	}
