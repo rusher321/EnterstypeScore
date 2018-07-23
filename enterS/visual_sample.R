@@ -19,8 +19,8 @@
 rm(list = ls())
 options(digits = 10)
 
-workdir <- dirname(rstudioapi::getActiveDocumentContext()$path)
-setwd(workdir)
+#workdir <- dirname(rstudioapi::getActiveDocumentContext()$path)
+#setwd(workdir)
 if(file.exists("result")){next}else{dir.create("result")}
 
 # load packages
@@ -33,7 +33,7 @@ ipak <- function(pkg){
 }
 
 # ----Load Required packages----
-packages <- c("ggplot2","ape","RcolorBrewer","Rtsne","vegan")
+packages <- c("ggplot2","ape","RColorBrewer","Rtsne","vegan")
 ipak(packages)
 
 source("../scripts/distance.R")
@@ -77,12 +77,12 @@ if(index != 2 & index != 1)
 	dis <- vegdis(pro, method = args[3])
 
 
-write.table(dis, paste0("./result/",prefix, "_", method), quote =F, col.names=NA, sep="\t")
+save(dis, file= paste0("./result/",prefix, "_", method, ".dist.RData"))
 write.table(pro, paste0("./result/",prefix,".relative.tab"), quote =F, col.names=NA, sep="\t")
 
 config <- data.frame(config)
 rownames(config) <- rownames(pro)
-write.table(config, paste0("./result/",prefix,".relative.tab"), quote =F, col.names=NA, sep="\t")
+write.table(config, paste0("./result/",prefix,".config.tab"), quote =F, col.names=NA, sep="\t")
 
 # figure
 
@@ -101,8 +101,13 @@ if(index2 == 4)
 
 
 pdf(paste0("./result/",prefix,"_", args[4], ".pdf"))
-space
+space[[1]]
 dev.off()
+
+# pcoa 
+
+write.table(space[[2]], paste0("./result/",prefix,"_",Reduction,".tab"), quote =F, col.names=NA, sep="\t")
+
 
 
 
