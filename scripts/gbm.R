@@ -1,7 +1,6 @@
 mygbm <- function(data){
-	```
-	here use the gbm model to fit the score
-	```
+  
+
 	out <- list()
 	gbmGrid <- expand.grid(.interaction.depth=(1:5)*2, .n.trees=(1:5)*20, .shrinkage=.01, .n.minobsinnode = c(10))
 
@@ -16,6 +15,7 @@ mygbm <- function(data){
 	bestT <- Mod$bestTune
 	prevalue <- Mod$pred
 	qdat <- subset(prevalue, n.trees==bestT$n.trees & interaction.depth==bestT$interaction.depth)
-	out <- c(Mod, qdat)
-
+	out <- list(Mod, qdat)
+  return(out)
+	
 	}

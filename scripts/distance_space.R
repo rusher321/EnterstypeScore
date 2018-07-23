@@ -8,10 +8,11 @@
 
 # here the most color is 12
 
-paired <- brewer.pal(12, "set1")
+paired <- brewer.pal(9, "Set1")
 
 mypcoa <- function(dis, method = "bray", config){
    
+   out <- list()
    if(method != "euclidean"){
    	pco <- pcoa(dis)
    }else{
@@ -33,8 +34,8 @@ mypcoa <- function(dis, method = "bray", config){
         panel.grid = element_blank(),
         legend.title = element_text(size = 15),
         legend.text = element_text(size = 13))+xlab(pc1)+ylab(pc2)+scale_color_manual(values = c("#999999", paired))
-
-  return(plot)
+  out <- list(plot, dat2)
+  return(out)
 
 }
 
@@ -42,7 +43,7 @@ mypcoa <- function(dis, method = "bray", config){
 # tsne 
 
 mytsne <- function(dis, config, method="bray"){
-    
+    out <- list()
     #dis <- vegdist(data, method = method)
     tsne <- Rtsne(dis, dims = 2, perplexity=30, verbose=T, max_iter = 500)
 
@@ -61,6 +62,7 @@ mytsne <- function(dis, config, method="bray"){
         legend.title = element_text(size = 15),
         legend.text = element_text(size = 13))+xlab(pc1)+ylab(pc2)+scale_color_manual(values = c("#999999", paired))
   
+    out <- list(dat2, plot)
     return(plot)
 
 
@@ -72,6 +74,7 @@ mytsne <- function(dis, config, method="bray"){
 
 myrpca <- function(data, config, scale=F){
  
+  out <- list()
   #data <- data[,colSums(data)!=0]
   #if(scale==F){
   #data <- scale(data, center=T, scale=F)
@@ -93,7 +96,7 @@ myrpca <- function(data, config, scale=F){
         panel.grid = element_blank(),
         legend.title = element_text(size = 15),
         legend.text = element_text(size = 13))+xlab(pc1)+ylab(pc2)+scale_color_manual(values = c("#999999", paired))
-  
+  out <- list(plot, dat2)
   return(plot)
 }
 
@@ -102,20 +105,21 @@ myrpca <- function(data, config, scale=F){
 
 mynmds <- function(data, method = "bray", config){
   
+  out <- list()
   mds <- metaMDS(data, distance = method, k = 2, trymax = 50)
 
   dat2 <- data.frame(mds$point[,1:2])
   colnames(dat2) <- c("NMDS1", "NMDS2")
   dat2$group <- as.factor(config)
-  plot <- ggplot(dat2,aes(PC1,PC2,color=group))+geom_point()+theme_bw()+
-    ggtitle(pasteo("NMDS","_",method))+theme(plot.title = element_text(hjust = 0.5,size = 14),
+  plot <- ggplot(dat2,aes(NMDS1,NDMS2,color=group))+geom_point()+theme_bw()+
+    ggtitle(paste0("NMDS","_",method))+theme(plot.title = element_text(hjust = 0.5,size = 14),
                                              axis.title = element_text(size = 10),
                                              axis.text = element_text(size = 13),
                                              panel.grid = element_blank(),
                                              legend.title = element_text(size = 15),
-                                             legend.text = element_text(size = 13))+xlab(pc1)+ylab(pc2)+scale_color_manual(values = c("#999999", paired))
-  
-  return(plot)
+                                             legend.text = element_text(size = 13))+xlab("NMDS1")+ylab("NMDS2")+scale_color_manual(values = c("#999999", paired))
+  out <- list(plot, dat2)
+  return(out)
   
 }
 
